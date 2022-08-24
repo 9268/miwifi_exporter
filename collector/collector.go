@@ -147,11 +147,12 @@ func (c *Metrics) Collect(ch chan<- prometheus.Metric) {
 				break
 			}
 		}
-
-		ch <- prometheus.MustNewConstMetric(c.metrics["device_upload_traffic"], prometheus.GaugeValue, devUpload, devIP, devMac, devName, devIsAP)
-		ch <- prometheus.MustNewConstMetric(c.metrics["device_download_traffic"], prometheus.GaugeValue, devDownload, devIP, devMac, devName, devIsAP)
-		ch <- prometheus.MustNewConstMetric(c.metrics["device_upload_speed"], prometheus.GaugeValue, devUpSpeed, devIP, devMac, devName, devIsAP)
-		ch <- prometheus.MustNewConstMetric(c.metrics["device_download_speed"], prometheus.GaugeValue, devDownSpeed, devIP, devMac, devName, devIsAP)
+		if devIp!="" && devIsAP!=""{ // 仅在设备在线时上传
+			ch <- prometheus.MustNewConstMetric(c.metrics["device_upload_traffic"], prometheus.GaugeValue, devUpload, devIP, devMac, devName, devIsAP)
+			ch <- prometheus.MustNewConstMetric(c.metrics["device_download_traffic"], prometheus.GaugeValue, devDownload, devIP, devMac, devName, devIsAP)
+			ch <- prometheus.MustNewConstMetric(c.metrics["device_upload_speed"], prometheus.GaugeValue, devUpSpeed, devIP, devMac, devName, devIsAP)
+			ch <- prometheus.MustNewConstMetric(c.metrics["device_download_speed"], prometheus.GaugeValue, devDownSpeed, devIP, devMac, devName, devIsAP)
+		}
 	}
 }
 

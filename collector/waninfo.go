@@ -89,7 +89,7 @@ func GetWifiWanInfo() {
 		log.Println("Token失效，正在重试获取")
 		config.GetConfig()
 		count++
-		time.Sleep(1 * time.Minute)
+		time.Sleep(1 * time.Second)
 		if count >= 5 {
 			log.Println("获取状态错误，可能原因：1.账号或者密码错误，2.路由器鉴权错误", err)
 			os.Exit(1)
